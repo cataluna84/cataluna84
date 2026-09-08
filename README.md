@@ -121,8 +121,8 @@ Conferences attended (remotely): **ICLR · ICML · CVPR · NeurIPS**
 
 | | |
 |---|---|
-| Contributions (last year) | **544** |
-| Commits (last year) | **499** |
+| Contributions (last year) | **545** |
+| Commits (last year) | **500** |
 | Pull requests merged | **34** |
 | Stars earned | **33** |
 | Followers | **47** |

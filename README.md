@@ -47,7 +47,9 @@ My research spans **Computer Vision**, **State Space Models** (S4 / S5 / Mamba),
 
 🎵 **[TinyAya: Simultaneous Translation](https://github.com/tiny-aya-simultaneous-translation)** — A set of 6 public GitHub repos having benchmarks for fine-tuning neural speech codecs (Mimi, DualCodec, Kanade) on low-resource languages with 8 optimizers + W&B Bayesian sweeps. Plus, the complete end to end [model weights](https://huggingface.co/tiny-aya-translate/tr-hi-s2st-v0.3) trained on v6e-16 TPUs 
 
-🛡️ **[Crosslingual Emergent Misalignment](https://github.com/Cohere-Labs-Community/crosslingual-emergent-misalignment)** — Cohere Labs research on how safety guardrails degrade across high- and low-resource languages.
+🛡️ **[Crosslingual Emergent Misalignment](https://github.com/Cohere-Labs-Community/crosslingual-emergent-misalignment)** — Cohere Labs research on how safety guardrails degrade across high- and low-resource languages. Published as a virtual poster at the ICML 2026 Mechanistic Interpretability Workshop.
+
+🚘 **[Tiny Aya Under the hood](https://github.com/rsk2327/Tiny-Aya-Under-the-hood)** — This project investigates how Tiny Aya processes information across languages by analyzing how representations evolve across model layers.
 
 🎨 **[Generative Deep Learning](https://github.com/cataluna84/Generative_Deep_Learning)** — VAE, GAN, and Diffusion implementations for image synthesis.
 

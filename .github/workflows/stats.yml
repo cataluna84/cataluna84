@@ -1,0 +1,92 @@
+name: Refresh profile stats
+
+on:
+  schedule:
+    # 04:17 UTC on the 1st of each month.
+    - cron: "17 4 1 * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/gen_stats.py
+      - scripts/check_stale.py
+      - .github/workflows/stats.yml
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: profile-stats
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate stats block
+        env:
+          # STATS_TOKEN is optional. Add a read-only PAT only if the default
+          # token turns out to be unable to read cross-org public data.
+          GITHUB_TOKEN: ${{ secrets.STATS_TOKEN || secrets.GITHUB_TOKEN }}
+        run: python scripts/gen_stats.py
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- README.md; then
+            echo "No change to README.md"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Refresh profile stats" -- README.md
+          git push
+
+      # Backstop: if the block is still stale after a successful refresh, the
+      # date marker was not updated and the run only appeared to work.
+      - name: Verify the block is actually fresh
+        id: freshness
+        run: python scripts/check_stale.py --days 2
+
+      - name: Open reminder issue on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create profile-stats --color ededed \
+            --description "Automated profile stats maintenance" --force || true
+
+          existing=$(gh issue list --label profile-stats --state open \
+            --json number --jq '.[0].number // empty')
+
+          body=$(cat <<'EOF'
+          The monthly profile stats refresh did not complete.
+
+          Run locally to recover:
+
+          ```bash
+          GITHUB_TOKEN="$(gh auth token)" python3 scripts/gen_stats.py
+          git commit -m "Refresh profile stats" -- README.md && git push
+          ```
+
+          Common causes:
+          - `GITHUB_TOKEN` cannot read cross-org public data. Add a read-only PAT
+            as the `STATS_TOKEN` secret.
+          - GitHub disabled the schedule after 60 days of repository inactivity.
+            Re-enable it on the Actions tab.
+          EOF
+          )
+          body="$body"$'\n\n'"Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "Profile stats refresh needs attention" \
+              --label profile-stats --body "$body"
+          fi

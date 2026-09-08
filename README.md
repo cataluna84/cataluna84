@@ -45,7 +45,7 @@ My research spans **Computer Vision**, **State Space Models** (S4 / S5 / Mamba),
 
 🧠 **[ARC Prize 2026 (ARC-AGI-3)](https://github.com/cataluna84/arc-agi-3)** — Public lab notebook for the $850K ARC-AGI-3 competition. Agent zoo, FORGE, BFS, CNN, frame segmenter.
 
-🎵 **[Codec Fine-tuning — Tiny Aya](https://github.com/cataluna84/codec-finetuning)** — Benchmark for fine-tuning neural speech codecs (Mimi, DualCodec, Kanade) on low-resource languages with 8 optimizers + W&B Bayesian sweeps.
+🎵 **[TinyAya: Simultaneous Translation](https://github.com/tiny-aya-simultaneous-translation)** — A set of 6 public GitHub repos having benchmarks for fine-tuning neural speech codecs (Mimi, DualCodec, Kanade) on low-resource languages with 8 optimizers + W&B Bayesian sweeps. Plus, the complete end to end [model weights](https://huggingface.co/tiny-aya-translate/tr-hi-s2st-v0.3) trained on v6e-16 TPUs 
 
 🛡️ **[Crosslingual Emergent Misalignment](https://github.com/Cohere-Labs-Community/crosslingual-emergent-misalignment)** — Cohere Labs research on how safety guardrails degrade across high- and low-resource languages.
 

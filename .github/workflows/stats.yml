@@ -58,6 +58,9 @@ jobs:
         if: failure()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Set explicitly so this still works when the failure being reported
+          # is the checkout step itself.
+          GH_REPO: ${{ github.repository }}
         run: |
           gh label create profile-stats --color ededed \
             --description "Automated profile stats maintenance" --force || true
